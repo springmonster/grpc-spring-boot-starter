@@ -1,0 +1,23 @@
+POST http://localhost:8081/complex
+Content-Type: application/json
+
+{
+  "name": "kuanghc",
+  "age": 36,
+  "address": {
+    "China": "TianJin",
+    "Korea": "Seoul"
+  },
+  "hobby": [
+    "basketball",
+    "reading"
+  ]
+}
+
+<> 2022-05-29T220050.200.json
+<> 2022-05-29T215922.200.json
+<> 2022-05-29T215916.200.json
+<> 2022-05-29T215803.415.json
+<> 2022-05-29T215540.415.json
+
+###

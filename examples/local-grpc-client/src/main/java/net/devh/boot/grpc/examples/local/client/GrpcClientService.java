@@ -17,13 +17,17 @@
 
 package net.devh.boot.grpc.examples.local.client;
 
-import org.springframework.stereotype.Service;
-
 import io.grpc.StatusRuntimeException;
 import net.devh.boot.grpc.client.inject.GrpcClient;
+import net.devh.boot.grpc.examples.lib.ComplexGrpc;
+import net.devh.boot.grpc.examples.lib.ComplexReply;
+import net.devh.boot.grpc.examples.lib.ComplexRequest;
 import net.devh.boot.grpc.examples.lib.HelloReply;
 import net.devh.boot.grpc.examples.lib.HelloRequest;
 import net.devh.boot.grpc.examples.lib.SimpleGrpc.SimpleBlockingStub;
+import net.devh.boot.grpc.examples.local.client.entity.UserInput;
+import net.devh.boot.grpc.examples.local.client.entity.UserOutput;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Michael (yidongnan@gmail.com)
@@ -35,6 +39,9 @@ public class GrpcClientService {
     @GrpcClient("local-grpc-server")
     private SimpleBlockingStub simpleStub;
 
+    @GrpcClient("local-grpc-server")
+    private ComplexGrpc.ComplexBlockingStub complexBlockingStub;
+
     public String sendMessage(final String name) {
         try {
             final HelloReply response = this.simpleStub.sayHello(HelloRequest.newBuilder().setName(name).build());
@@ -44,4 +51,20 @@ public class GrpcClientService {
         }
     }
 
+    public UserOutput sendComplexMessage(UserInput userInput) {
+        try {
+            ComplexRequest complexRequest = ComplexRequest.newBuilder().setName(userInput.getName()).setAge(userInput.getAge()).putAllAddress(userInput.getAddress()).addAllHobby(userInput.getHobby()).build();
+
+            final ComplexReply response = this.complexBlockingStub.sayComplex(complexRequest);
+            return UserOutput.builder()
+                    .name(response.getName())
+                    .age(response.getAge())
+                    .address(response.getAddressMap())
+                    .hobby(response.getHobbyList())
+                    .description(response.getDescription())
+                    .build();
+        } catch (final StatusRuntimeException e) {
+            return null;
+        }
+    }
 }

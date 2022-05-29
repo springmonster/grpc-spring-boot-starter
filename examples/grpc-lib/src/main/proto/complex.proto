@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "net.devh.boot.grpc.examples.lib";
+option java_outer_classname = "ComplexProto";
+
+// The greeting service definition.
+service Complex {
+  // Sends a greeting
+  rpc sayComplex (ComplexRequest) returns (ComplexReply) {
+  }
+}
+
+// The request message containing the user's name.
+message ComplexRequest {
+  string name = 1;
+  int32 age = 2;
+  map<string, string> address = 3;
+  repeated string hobby = 4;
+}
+
+// The response message containing the greetings
+message ComplexReply {
+  string name = 1;
+  int32 age = 2;
+  map<string, string> address = 3;
+  repeated string hobby = 4;
+  string description = 5;
+}

@@ -17,7 +17,12 @@
 
 package net.devh.boot.grpc.examples.local.client;
 
+import net.devh.boot.grpc.examples.local.client.entity.UserInput;
+import net.devh.boot.grpc.examples.local.client.entity.UserOutput;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +40,11 @@ public class GrpcClientController {
     @RequestMapping("/")
     public String printMessage(@RequestParam(defaultValue = "Michael") String name) {
         return grpcClientService.sendMessage(name);
+    }
+
+    @PostMapping(value = "/complex", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public UserOutput complexPrintMessage(@RequestBody UserInput userInput) {
+        return grpcClientService.sendComplexMessage(userInput);
     }
 
 }
